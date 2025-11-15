@@ -1,0 +1,111 @@
+<% layout('/layouts/boilerplate') %>
+
+<div class="create-listing-container">
+  <div class="create-listing-card">
+    <h3>Create a New Listing</h3>
+
+    <form
+      action="/listings"
+      method="post"
+      novalidate
+      class="needs-validation"
+      enctype="multipart/form-data"
+    >
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          name="listing[title]"
+          placeholder="Enter title"
+          type="text"
+          class="form-control"
+          required
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          name="listing[description]"
+          placeholder="Write a short description..."
+          class="form-control"
+          required
+        ></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <select
+          name="listing[category]"
+          id="category"
+          class="form-select"
+          required
+        >
+          <option value="">Choose category...</option>
+          <option value="trending">Trending</option>
+          <option value="rooms">Rooms</option>
+          <option value="iconic cities">Iconic Cities</option>
+          <option value="mountain">Mountain</option>
+          <option value="castles">Castles</option>
+          <option value="arctic">Arctic</option>
+          <option value="camping">Camping</option>
+          <option value="farms">Farms</option>
+          <option value="doms">Doms</option>
+          <option value="boat">Boat</option>
+          <option value="deserts">Deserts</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="image" class="form-label">Upload Image</label>
+        <input
+          name="listing[image]"
+          id="image"
+          type="file"
+          class="form-control"
+          accept="image/*"
+          required
+        />
+        <div class="invalid-feedback" id="fileSizeError" style="display: none">
+          File size must be less than 2MB
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="mb-3 col-md-4">
+          <label for="price" class="form-label">Price</label>
+          <input
+            name="listing[price]"
+            placeholder="Enter price"
+            type="number"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="mb-3 col-md-8">
+          <label for="country" class="form-label">Country</label>
+          <input
+            name="listing[country]"
+            placeholder="Enter country"
+            type="text"
+            class="form-control"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input
+          name="listing[location]"
+          placeholder="Enter location"
+          type="text"
+          class="form-control"
+          required
+        />
+      </div>
+
+      <button class="btn add-btn mt-3">Add Listing</button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,110 @@
+<% layout('layouts/boilerplate') %>
+
+
+<!--  Filter Section -->
+<div id="filters-wrapper">
+  <!-- Scroll Buttons -->
+  <div class="scroll-btn left" id="scrollLeft">
+    <i class="fa-solid fa-chevron-left"></i>
+  </div>
+  <div class="scroll-btn right" id="scrollRight">
+    <i class="fa-solid fa-chevron-right"></i>
+  </div>
+
+  <!--  Filter Bar -->
+  <div id="filters">
+    <a href="/listings?category=trending" class="filter <%= selectedCategory === 'trending' ? 'active-filter' : '' %>">
+      <i class="fa-solid fa-fire"></i><p>Trending</p>
+    </a>
+    <a href="/listings?category=rooms" class="filter <%= selectedCategory === 'rooms' ? 'active-filter' : '' %>">
+      <i class="fa-solid fa-bed"></i><p>Rooms</p>
+    </a>
+    <a href="/listings?category=iconic cities" class="filter <%= selectedCategory === 'iconic cities' ? 'active-filter' : '' %>">
+      <i class="fa-solid fa-mountain-city"></i><p>Iconic Cities</p>
+    </a>
+    <a href="/listings?category=mountain" class="filter <%= selectedCategory === 'mountain' ? 'active-filter' : '' %>">
+      <i class="fa-solid fa-mountain"></i><p>Mountain</p>
+    </a>
+    <a href="/listings?category=castles" class="filter <%= selectedCategory === 'castles' ? 'active-filter' : '' %>">
+      <i class="fa-brands fa-fort-awesome"></i><p>Castles</p>
+    </a>
+    <a href="/listings?category=arctic" class="filter <%= selectedCategory === 'arctic' ? 'active-filter' : '' %>">
+      <i class="fa-regular fa-snowflake"></i><p>Arctic</p>
+    </a>
+    <a href="/listings?category=camping" class="filter <%= selectedCategory === 'camping' ? 'active-filter' : '' %>">
+      <i class="fa-solid fa-campground"></i><p>Camping</p>
+    </a>
+    <a href="/listings?category=farms" class="filter <%= selectedCategory === 'farms' ? 'active-filter' : '' %>">
+      <i class="fa-solid fa-cow"></i><p>Farms</p>
+    </a>
+    <a href="/listings?category=doms" class="filter <%= selectedCategory === 'doms' ? 'active-filter' : '' %>">
+      <i class="fa-solid fa-igloo"></i><p>Doms</p>
+    </a>
+    <a href="/listings?category=boat" class="filter <%= selectedCategory === 'boat' ? 'active-filter' : '' %>">
+      <i class="fa-solid fa-ship"></i><p>Boat</p>
+    </a>
+    <a href="/listings?category=deserts" class="filter <%= selectedCategory === 'deserts' ? 'active-filter' : '' %>">
+      <i class="fa-solid fa-sun"></i><p>Deserts</p>
+    </a>
+    <a href="/listings" class="filter <%= selectedCategory === 'all' ? 'active-filter' : '' %>">
+      <i class="fa-solid fa-globe"></i><p>All</p>
+    </a>
+  </div>
+</div>
+
+<!-- Listings Grid -->
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-4">
+ <% for (const listing of allListings) {
+      const nights = Math.floor(Math.random() * 4) + 2;
+      const startDay = Math.floor(Math.random() * 28) + 1;
+      const endDay = startDay + nights;
+      const month = new Date().toLocaleString('default', { month: 'short' });
+  %>
+    <a href="/listings/<%= listing._id %>" class="listing-link">
+      <div class="card listing-card">
+        <img 
+          src="<%= listing.image?.url || listing.image %>" 
+          alt="listing_image"
+        />
+        <div class="card-body">
+          <b><%= listing.title %></b><br />
+          <p><%= listing.location %>, <%= listing.country %></p>
+          <p><%= startDay %>–<%= endDay %> <%= month %> • <%= nights %> nights</p>
+          <span class="price-info">₹<%= listing.price.toLocaleString('en-IN') %> / night</span>
+        </div>
+      </div>
+    </a>
+  <% } %>
+</div>
+
+<script>
+  const filters = document.getElementById("filters");
+  const leftBtn = document.getElementById("scrollLeft");
+  const rightBtn = document.getElementById("scrollRight");
+
+  function updateScrollButtons() {
+    const maxScroll = filters.scrollWidth - filters.clientWidth;
+    if (maxScroll > 10) {
+      leftBtn.style.display = filters.scrollLeft > 10 ? "flex" : "none";
+      rightBtn.style.display =
+        filters.scrollLeft < maxScroll - 10 ? "flex" : "none";
+    } else {
+      leftBtn.style.display = "none";
+      rightBtn.style.display = "none";
+    }
+  }
+
+  rightBtn.addEventListener("click", () => {
+    filters.scrollBy({ left: 250, behavior: "smooth" });
+  });
+
+  leftBtn.addEventListener("click", () => {
+    filters.scrollBy({ left: -250, behavior: "smooth" });
+  });
+
+  filters.addEventListener("scroll", updateScrollButtons);
+  window.addEventListener("resize", updateScrollButtons);
+  window.addEventListener("load", updateScrollButtons);
+</script>
+
+
