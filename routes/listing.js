@@ -14,6 +14,17 @@ const upload = multer({
 });
 
 
+// Multer error handling middleware
+const handleMulterError = (err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      req.flash('error', 'File size too large. Please upload an image smaller than 2MB.');
+      return res.redirect('/listings/new');
+    }
+  }
+  next(err);
+};
+
 // Index , Create Listing Routes
 router
   .route("/")
@@ -21,6 +32,7 @@ router
   .post(
     isLoggedIn,
     upload.single("listing[image]"),
+    handleMulterError,
     validateListing,
     wrapAsync(listingController.createListing)
   );
@@ -36,6 +48,7 @@ router
     isLoggedIn,
     isOwner,
     upload.single("listing[image]"),
+    handleMulterError,
     validateListing,
     wrapAsync(listingController.updateListing)
   )

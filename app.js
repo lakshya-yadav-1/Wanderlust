@@ -50,20 +50,8 @@ app.use(express.json());
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "/public")));
 
-const store = MongoStore.create({
-  mongoUrl: dbUrl,
-  crypto: {
-    secret: process.env.SECRET,
-  },
-  touchAfter: 24 * 3600,
-});
-
-store.on("error", () => {
-  console.log("ERROR in MONGO SESSION STORE", err);
-});
-
+// Temporary: Use memory store instead of MongoDB for sessions
 const sessionOptions = {
-  store,
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
@@ -101,6 +89,11 @@ app.use((req, res, next)=> {
   next();
 })
 
+
+// Root route redirect
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
 
 // Using Routes 
 app.use("/listings", listingsRouter);
